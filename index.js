@@ -164,13 +164,17 @@ class Instructor extends Lambdasian {
     return `Today we are learning about ${subject}`
   }
   grade(student, subject) {
+    let points = Math.round(Math.random() * 4);
+    student.grade += points;
     return `${student.name} recieves a perfect score on ${subject}`;
   }
+  
 }
 let david = new Instructor({name: `David`, age:`32`, location: `California`, specialty: `Classes`, favLanguage: `JavaScrpit`, catchPhrase: `JS Rocks!`});
 console.log(david);
 console.log(david.demo(`JavaScript`));
 console.log(david.grade(isaac, `JavaScript`));
+
 
 /*
   TASK 5
@@ -194,6 +198,7 @@ class Student extends Lambdasian {
       this.previousBackground = student.previousBackground;
       this.className = student.className;
       this.favSubjects = student.favSubjects;
+      this.grade = student.grade;
     }
     listSubjects() {
       let favSubject = "Loving ";
@@ -210,11 +215,19 @@ class Student extends Lambdasian {
     sprintChallenge(subject) {
       return `${this.name} has begun sprint challenge on ${subject}`;
     }
+    checkGradStatus() {
+      if (this.grade >= 70) {
+        return `${this.name} is ready to graduate! CONGRATS!`;
+      } else {
+        return `${this.name} is not ready to graduate! Go back an try to redo some assignments`;
+      }
+    }
 }
-let greg = new Student({name: `Greg`, age: 25, location: `Utah`, previousBackground: `Finance`, className: `Web Dev`, favSubjects: [`Js`, `HTML`, `CSS`]});
+let greg = new Student({name: `Greg`, age: 25, location: `Utah`, previousBackground: `Finance`, className: `Web Dev`, favSubjects: [`Js`, `HTML`, `CSS`], grade: 90});
 console.log(greg);
 console.log(greg.listSubjects());
-console.log(greg.sprintChallenge(greg, `JavaScript`));
+console.log(greg.sprintChallenge("JavaScript"));
+console.log(greg.checkGradStatus());
 
 /*
   TASK 6
@@ -243,6 +256,12 @@ class ProjectManager extends Instructor {
     return `${this.name} debugs ${student.name}'s code on ${subject}`;
   }
 }
+let nick = new ProjectManager({name: `Nick`, age: 29, location: `Utah`, specialty: `Classes`, favLanguage: `Python`, catchPhrase: `Money, money, money, money`, gradClassName: 2016, favInstructor: david.name});
+console.log(nick);
+console.log(nick.standUp(`General`));
+console.log(nick.debugsCode(greg, `JavaScript`));
+console.log(nick.grade(greg, `JavaScript`));
+console.log(greg);
 
 /*
   STRETCH PROBLEM (no tests!)
