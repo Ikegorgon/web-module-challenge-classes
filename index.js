@@ -50,7 +50,7 @@ class Person {
     this.stomach = [];
   }
   eat(someFood) {
-    if (this.stomach.length <= 10) {
+    if (this.stomach.length < 10) {
       this.stomach.push(someFood);
     }
   }
@@ -89,13 +89,17 @@ class Car {
     this.tank += gallons;
   }
   drive(distance) {
-    let distanceDriven = distance;
-    for (let i = distance; i >= this.milesPerGallon; i -= this.milesPerGallon) {
-      if (this.tank === 0) {
+    let distanceDriven = 0;
+    for(let i = distance; i > 0; i -= 1) {
+      if(this.tank === 0) {
         return `I ran out of fuel at ${this.odometer} miles!`;
       } else {
-        this.odometer += this.milesPerGallon;
-        this.tank -= 1;
+        this.odometer += 1;
+        distanceDriven += 1;
+        if(distanceDriven === this.milesPerGallon) {
+          this.tank -= 1;
+          distanceDriven = 0;
+        }
       }
     }
   }
@@ -104,9 +108,7 @@ let batmobile = new Car("batmobile", 20);
 console.log(batmobile);
 batmobile.fill(10);
 console.log(batmobile);
-batmobile.drive(40);
-console.log(batmobile);
-batmobile.drive(280);
+batmobile.drive(50);
 console.log(batmobile);
 
 /*
@@ -191,22 +193,28 @@ class Student extends Lambdasian {
       super(student);
       this.previousBackground = student.previousBackground;
       this.className = student.className;
-      this.favSubject = student.favSubject;
+      this.favSubjects = student.favSubjects;
     }
     listSubjects() {
-      let favSubjects = "Loving ";
-      this.favSubject.foreach(subject => {
-        favSubjects += subject + ", ";
+      let favSubject = "Loving ";
+      this.favSubjects.forEach(subject => {
+        favSubject += subject + ", ";
       });
-      return favSubjects;
+      favSubject = favSubject.slice(0, favSubject.length-2);
+      favSubject += `!`;
+      return favSubject;
     }
     PRAssignment(subject) {
       return `${this.name} has submitted a PR for ${subject}`;
     }
     sprintChallenge(subject) {
-      return `${student.name} has begun sprint challenge on ${subject}`;
+      return `${this.name} has begun sprint challenge on ${subject}`;
     }
 }
+let greg = new Student({name: `Greg`, age: 25, location: `Utah`, previousBackground: `Finance`, className: `Web Dev`, favSubjects: [`Js`, `HTML`, `CSS`]});
+console.log(greg);
+console.log(greg.listSubjects());
+console.log(greg.sprintChallenge(greg, `JavaScript`));
 
 /*
   TASK 6
@@ -229,10 +237,10 @@ class ProjectManager extends Instructor {
     this.favInstructor = projectManager.favInstructor;
   }
   standUp(slackChannel) {
-    return `${name} announces to ${channel}, @channel standy times!`;
+    return `${this.name} announces to ${slackChannel}, @channel standy times!`;
   }
-  debugCode(student, subject) {
-    return `${name} debugs ${student.name}'s code on ${subject}`;
+  debugsCode(student, subject) {
+    return `${this.name} debugs ${student.name}'s code on ${subject}`;
   }
 }
 
