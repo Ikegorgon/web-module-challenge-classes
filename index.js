@@ -44,8 +44,25 @@ class Airplane {
 */
 
 class Person {
-  
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
+  }
+  eat(someFood) {
+    if (this.stomach.length <= 10) {
+      this.stomach.push(someFood);
+    }
+  }
+  poop() {
+    this.stomach = [];
+  }
+  toString() {
+    return `${this.name}, ${this.age}`;
+  }
 }
+let John = new Person("John", 35);
+console.log(John);
 
 /*
   TASK 2
@@ -62,8 +79,35 @@ class Person {
 */
 
 class Car {
-  
+  constructor(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  }
+  fill(gallons) {
+    this.tank += gallons;
+  }
+  drive(distance) {
+    let distanceDriven = distance;
+    for (let i = distance; i >= this.milesPerGallon; i -= this.milesPerGallon) {
+      if (this.tank === 0) {
+        return `I ran out of fuel at ${this.odometer} miles!`;
+      } else {
+        this.odometer += this.milesPerGallon;
+        this.tank -= 1;
+      }
+    }
+  }
 }
+let batmobile = new Car("batmobile", 20);
+console.log(batmobile);
+batmobile.fill(10);
+console.log(batmobile);
+batmobile.drive(40);
+console.log(batmobile);
+batmobile.drive(280);
+console.log(batmobile);
 
 /*
   TASK 3
@@ -79,8 +123,18 @@ class Car {
 */
 
 class Lambdasian {
-  
+  constructor(student) {
+    this.name = student.name;
+    this.age = student.age;
+    this.location = student.location;
+  }
+  speak() {
+    return `Hello my name is ${this.name}, I am from ${this.location}.`
+  }
 }
+let isaac = new Lambdasian({name: "Isaac", age: 21, location: "Utah"});
+console.log(isaac);
+console.log(isaac.speak());
 
 /*
   TASK 4
@@ -97,9 +151,24 @@ class Lambdasian {
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
 
-class Instructor {
-
+class Instructor extends Lambdasian {
+  constructor(instructor) {
+    super(instructor);
+    this.specialty = instructor.specialty;
+    this.favLanguage = instructor.favLanguage;
+    this.catchPhrase = instructor.catchPhrase;
+  }
+  demo(subject) {
+    return `Today we are learning about ${subject}`
+  }
+  grade(student, subject) {
+    return `${student.name} recieves a perfect score on ${subject}`;
+  }
 }
+let david = new Instructor({name: `David`, age:`32`, location: `California`, specialty: `Classes`, favLanguage: `JavaScrpit`, catchPhrase: `JS Rocks!`});
+console.log(david);
+console.log(david.demo(`JavaScript`));
+console.log(david.grade(isaac, `JavaScript`));
 
 /*
   TASK 5
@@ -117,8 +186,26 @@ class Instructor {
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
 
-class Student {
-   
+class Student extends Lambdasian {
+    constructor(student) {
+      super(student);
+      this.previousBackground = student.previousBackground;
+      this.className = student.className;
+      this.favSubject = student.favSubject;
+    }
+    listSubjects() {
+      let favSubjects = "Loving ";
+      this.favSubject.foreach(subject => {
+        favSubjects += subject + ", ";
+      });
+      return favSubjects;
+    }
+    PRAssignment(subject) {
+      return `${this.name} has submitted a PR for ${subject}`;
+    }
+    sprintChallenge(subject) {
+      return `${student.name} has begun sprint challenge on ${subject}`;
+    }
 }
 
 /*
@@ -135,8 +222,18 @@ class Student {
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
 
-class ProjectManager {
-   
+class ProjectManager extends Instructor {
+  constructor(projectManager) {
+    super(projectManager);
+    this.gradClassName = projectManager.gradClassName;
+    this.favInstructor = projectManager.favInstructor;
+  }
+  standUp(slackChannel) {
+    return `${name} announces to ${channel}, @channel standy times!`;
+  }
+  debugCode(student, subject) {
+    return `${name} debugs ${student.name}'s code on ${subject}`;
+  }
 }
 
 /*
